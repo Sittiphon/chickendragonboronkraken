@@ -1,0 +1,58 @@
+body {
+  font-family: var(--headline-font);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.quarter {
+  -webkit-transition: all 350ms cubic-bezier(1, 0, 1, 0.78);
+  transition: all 350ms cubic-bezier(1, 0, 1, 0.78);
+  background-size: cover;
+  background-position: center center;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  color: white;
+  text-shadow: 1px 1px 0 black;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.open {
+  width: 100vw;
+  height: 100vh;
+}
+
+.above {
+  z-index: 5;
+}
+
+.about {
+  top: 0;
+  left: 0;
+}
+
+.work {
+  bottom: 0;
+}
+
+.expertise {
+  right: 0;
+  background-blend-mode: soft-light;
+  background-color: blue;
+}
+
+.cv {
+  bottom: 0;
+  right: 0;
+  background-color: yellow;
+  background-blend-mode: multiply;
+}

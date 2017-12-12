@@ -1,0 +1,57 @@
+<table class="table res w3-center">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Booth Name</th>
+      <th>Status</th>
+      <th>Created At</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody  *ngIf="dataStationPos">
+    <tr *ngFor="let data of dataStationPos ">
+      <th class="thcenter">{{data.id}}</th>
+      <th class="thcenter">{{data.booth_name}}</th>
+      <th class="thcenter">{{data.status}}</th>
+      <th class="thcenter">{{data.created_at}}</th>
+      <th class="thcenter"><button class="btn btn-danger" type="submit" (click)="onDeletePos(data.id)" >DELETE</button></th>
+    </tr>
+  </tbody>
+  <tbody *ngIf="dataStationCashier">
+    <tr *ngFor="let datac of dataStationCashier">
+      <th class="thcenter">{{datac.id}}</th>
+      <th class="thcenter">{{datac.cashier_name}}</th>
+      <th class="thcenter">{{datac.status}}</th>
+      <th class="thcenter">{{datac.created_at}}</th>
+      <th class="thcenter"><button class="btn btn-danger" type="submit"  (click)="onDeleteTopup(datac.id)" >DELETE</button></th>
+    </tr>
+  </tbody>
+</table>
+<hr class="hr">  
+<div class="row">
+  <div class="col-xs-12">
+    <form id="shopping-list-add" #f="ngForm">
+      <div class="row">
+        
+        <div class="col-sm-12 form-group">
+          <div *ngFor="let radio of btnRadio" class="radio-inline">
+            <input type="radio" [attr.id]="radio" name="stationType" ngModel [value]="radio">
+            <label [attr.for]="radio" > {{radio}} </label>
+          </div>
+        </div>
+
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+          <label for="item-name">Booth Name</label>
+          <input type="text" id="name" required class="form-control" ngModel name="name" #name>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-success" type="submit" (click)="onSubmit(name.value, f.value)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

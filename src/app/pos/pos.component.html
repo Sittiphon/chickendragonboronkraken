@@ -1,0 +1,74 @@
+<table class="table res w3-center">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name Lastname</th>
+      <th>User</th>
+      <th>Status</th>
+      <th>Phone Number</th>
+      <th>Type</th>
+      <th>Station Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="dataStaff">
+    <tr *ngFor="let data of dataStaff" >
+      <th class="thcenter">{{data.id}}</th>
+      <th *ngFor="let datas of data.booth_details" class="thcenter">{{datas.name}} {{datas.lastname}}</th>
+      <th *ngFor="let datas of data.booth_details" class="thcenter">{{datas.email}}</th>
+      <th class="thcenter">{{data.status}}</th>
+      <th *ngFor="let datas of data.booth_details" class="thcenter">{{datas.mobile_no}}</th>
+      <th *ngFor="let datas of data.booth_details" class="thcenter">{{datas.type}}</th>
+      <th class="thcenter">{{data.booth_name}}</th>
+      <th class="thcenter"><button class="btn btn-danger" type="submit" (click)="onDelete(data.user_id, data.booth_id)">DELETE</button></th>
+    </tr>
+  </tbody>
+</table>
+<hr class="hr">  
+<div class="row">
+  <div class="col-xs-12">
+    <form id="shopping-list-add" #f="ngForm">
+      <div class="row">
+        
+        <div class="col-sm-2 form-group">
+          <label for="item-amount">Select Station</label>
+          <select class="form-control" ngModel name="station">
+            <option *ngFor="let station of dataStation" [ngValue]="station.id" >{{station.booth_name}}</option>
+          </select>
+        </div>
+
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-sm-2 form-group">
+          <label for="item-name">Username</label>
+          <input type="text" id="username" required class="form-control" ngModel name="email" #email>
+        </div>
+
+        <div class="col-sm-2 form-group">
+          <label for="item-amount">Password</label>
+          <input type="password" id="item-amount" required class="form-control" ngModel name="password" #password>
+        </div>
+
+        <div class="col-sm-2 form-group">
+          <label for="item-amount">Name</label>
+          <input type="text" id="item-amount" required class="form-control" ngModel name="name" #name>
+        </div>
+
+        <div class="col-sm-2 form-group">
+          <label for="item-amount">Lastname</label>
+          <input type="text" id="item-amount" required class="form-control" ngModel name="lastname" #lastname>
+        </div>
+
+        <div class="col-sm-2 form-group">
+          <label for="item-amount">Telephon No</label>
+          <input type="text" id="item-amount" required class="form-control" ngModel name="mobile_no" #mobileno>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-success" type="submit" (click)="onSubmit(email.value, password.value, name.value, lastname.value, mobileno.value, f.value)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

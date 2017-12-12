@@ -1,0 +1,317 @@
+<div class="w3-container grid grid-pad">
+
+  <a class="a col-1-4" (click)="selectedT1 = !selectedT1;">
+    <div class="module hero">
+      <h4 class="h4">Change Gate</h4>
+    </div>
+  </a>
+
+  <a class="a col-1-4" href="dashboard#Info">
+    <div class="module hero" (click)="selectedT2 = !selectedT2;">
+      <h4 class="h4">User Info</h4>
+    </div>
+  </a>
+
+  <a class="a col-1-4" href="dashboard#entry">
+    <div class="module hero" (click)="selectedT3 = !selectedT3;">
+      <h4 class="h4">Find entry log</h4>
+    </div>
+  </a>
+
+  <a class="a col-1-4" href="dashboard#transactions">
+    <div class="module hero" (click)="selectedT4 = !selectedT4;">
+      <h4 class="h4">Find transactions</h4>
+    </div>
+  </a>
+
+</div>
+
+<div class="w3-container w3-card-2 w3-white w3-margin-bottom w3-center w3-display-container" id="Gate" *ngIf="selectedT1">
+  <span (click)="selectedT1 = !selectedT1;" class="w3-button w3-theme-l3 w3-display-topright">
+    <i class="fa fa-remove"></i>
+  </span>
+  <div>
+    <h2>
+      Change Gate Status
+    </h2>
+    <div class=" w3-section">
+
+      <div class="row">
+        <form #formRef="ngForm">
+          <div *ngFor="let radio of btnRadio" class="radio-inline">
+            <input type="radio" [attr.id]="radio" name="radio" ngModel [value]="radio">
+            <label [attr.for]="radio" > {{radio}} </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="Behind Tag" required name="Behind_Tag" id="BehindTag" #BehindTag>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="updateTag(BehindTag.value, formRef.value)" >
+            <i class="fa fa-paper-plane"></i> Behind Tag
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="RFID" required name="RFID" id="RFID" #rfid>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="updatRFID(rfid.value, formRef.value)">
+            <i class="fa fa-paper-plane"></i> RFID
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="dataUpdate" class="alert alert-success alert-dismissable fade in" role="alert" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success! </strong>RFID: {{dataUpdate.data_name.rfid}} Gate Status: {{dataUpdate.data_name.gate_status}}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--User Info-->
+<div class="w3-container w3-card-2 w3-white w3-margin-bottom w3-center w3-display-container" id="Info" *ngIf="selectedT2">
+  <span (click)="selectedT2 = !selectedT2;" class="w3-button w3-theme-l3 w3-display-topright">
+    <i class="fa fa-remove"></i>
+  </span>
+  <div>
+    <h2>
+      User Info
+    </h2>
+    <div class=" w3-section">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="Order" required name="Order">
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit">
+            <i class="fa fa-paper-plane"></i> Order Number
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="Behind Tag" required name="BehindTag" #BehindTag>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="postInfoTag(BehindTag.value)">
+            <i class="fa fa-paper-plane"></i> Behind Tag
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="RFID" required name="RFID" #rfid>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="postInfo(rfid.value)">
+            <i class="fa fa-paper-plane"></i> RFID
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="dataInfo?.status_massage === 'OK' " class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <table class="table res w3-center">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>User Name</th>
+                <th>QRCODE</th>
+                <th>Balance</th>
+                <th>RFID</th>
+                <th>Gate Status</th>
+                <th>Ticket Type Name</th>
+                <th>Ticket Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>{{dataInfo.order_id}}</th>
+                <th>{{dataInfo.user_name}}</th>
+                <th>{{dataInfo.tickets.qrcode}}</th>
+                <th>{{dataInfo.tickets.balance}}</th>
+                <th>{{dataInfo.tickets.rfid}}</th>
+                <th>{{dataInfo.tickets.gate_status}}</th>
+                <th>{{dataInfo.tickets.ticket_type_name}}</th>
+                <th>{{dataInfo.tickets.ticket_name}}</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="dataInfo?.status_massage === 'FAIL' " class="alert alert-danger alert-dismissable fade in" role="alert" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Danger! </strong>RFID not compare
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--End User Info-->
+
+<!--Entry Log-->
+<div class="w3-container w3-card-2 w3-white w3-margin-bottom w3-center w3-display-container" id="entry" *ngIf="selectedT3">
+  <span (click)="selectedT3 = !selectedT3;" class="w3-button w3-theme-l3 w3-display-topright">
+    <i class="fa fa-remove"></i>
+  </span>
+  <div>
+    <h2>
+      Find entry log
+    </h2>
+    <div class=" w3-section">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="Behind Tag" required name="BehindTag" #BehindTag>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="postEntryTag(BehindTag.value)">
+            <i class="fa fa-paper-plane"></i> Behind Tag
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="RFID" required name="RFID" #rfid>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="postEntry(rfid.value)">
+            <i class="fa fa-paper-plane"></i> RFID
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="dataEntry" class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+          <table class="table res w3-center">
+            <thead>
+              <tr>
+                <th>Gate Status</th>
+                <th>Entry Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of dataEntry">
+                <th class="thcenter">{{data.gate_status}}</th>
+                <th class="thcenter">{{data.entry_time}}</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--End Entry Log-->
+
+<!--Transactions-->
+<div class="w3-container w3-card-2 w3-white w3-margin-bottom w3-center w3-display-container" id="transactions" *ngIf="selectedT4">
+  <span (click)="selectedT4 = !selectedT4;" class="w3-button w3-theme-l3 w3-display-topright">
+    <i class="fa fa-remove"></i>
+  </span>
+  <div>
+    <h2>
+      Find transactions
+    </h2>
+    <div class=" w3-section">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="Behind Tag" required name="BehindTag" #BehindTag>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="postTransacTag(BehindTag.value)">
+            <i class="fa fa-paper-plane"></i> Behind Tag
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+           <input class="w3-input w3-border" type="text" placeholder="RFID" required name="RFID" #rfid>
+        </div>
+        <div class="col-xs-6 col-md-4">
+          <button class="w3-button w3-black" type="submit" (click)="postTransac(rfid.value)">
+            <i class="fa fa-paper-plane"></i> RFID
+          </button>
+        </div>
+      </div>
+
+      <nav *ngIf="dataTransac" class="accordion arrows">
+        <header class="box">
+          <label for="acc-close" class="box-title">Transactions</label>
+        </header>
+        <div *ngFor="let item of dataTransac" >
+          <input type="checkbox" name="accordion" id="{{item.transaction_id}}" />
+
+		      <section *ngIf="item?.transaction_type == 1" class="box">
+			      <label class="box-title" for="{{item.transaction_id}}">POS</label>
+			      <!--<label class="box-close" for="acc-close"></label>-->
+			      <div class="box-content">
+              <table class="table res w3-center">
+                <thead>
+                  <tr>
+                    <th>Balance</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>A/C Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let detail of item.transaction_details">
+                    <th class="thcenter">{{item.previous_balance}}</th>
+                    <th class="thcenter">{{detail.product_name}}</th>
+                    <th class="thcenter">{{detail.price}}</th>
+                    <th class="thcenter">{{detail.amount}}</th>
+                    <th class="thcenter">{{item.new_balance}}</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+		      </section>
+
+          <section *ngIf="item?.transaction_type == 3" class="box">
+			      <label class="box-title" for="{{item.transaction_id}}">TOP</label>
+			      <!--<label class="box-close" for="acc-close"></label>-->
+			      <div class="box-content">
+              <table class="table res w3-center">
+                <thead>
+                  <tr>
+                    <th>Balance</th>
+                    <th>Amount</th>
+                    <th>A/C Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let detail of item.transaction_details">
+                    <th class="thcenter">{{item.previous_balance}}</th>
+                    <th class="thcenter">{{detail.amount}}</th>
+                    <th class="thcenter">{{item.new_balance}}</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+		      </section>
+          <!--<input type="radio" name="accordion" id="acc-close" />-->
+        </div>
+      </nav>
+
+    </div>
+  </div>
+</div>
+<!--End Transactions-->
